@@ -24,29 +24,35 @@ class Router
     public function run()
     {
 
-        //Получаем строку запроса
+        // Получаем строку запроса
         $uri = $this->getURI();
-        //Проверяем наличие роута в $routes
+        // Проверяем наличие роута в $routes
         foreach ($this->routes as $uriPattern => $path) {
-            //Сравниваем $uriPattern and $uri
+            // Сравниваем $uriPattern and $uri
             if (preg_match("~$uriPattern~", $uri)) {
-                //Получаем внутренний путь из внешнего согласно правилу
+                // Получаем внутренний путь из внешнего согласно правилу
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
-                //Определяем какой контроллер и action обрабатывает запрос
+                // Определяем какой контроллер и action обрабатывает запрос
                 $segments = explode('/', $internalRoute);
                 $controllerName = array_shift($segments) . 'Controller';
                 $controllerName = ucfirst($controllerName);
                 $actionName = 'action' . ucfirst(array_shift($segments));
                 $parameters=$segments;
-                //Подключить класс контроллера
+                //var_dump($parameters);
+                // Подключить класс контроллера
                 $controllerFile = ROOT . 'apps/controllers/' . $controllerName . '.php';
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
                 }
                 $controllerObject = new $controllerName;
-                $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
-                if ($result = !null){
-                    break;
+
+                if (method_exists($controllerObject, $actionName)) {
+                    call_user_func_array(array($controllerObject, $actionName), $parameters);
+                    if ($result = !null){
+                        break;
+                    }
+                } else {
+                   echo '404'; //обработать ошибки или вызывать контроллер
                 }
             }
         }

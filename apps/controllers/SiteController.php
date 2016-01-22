@@ -13,10 +13,10 @@ class SiteController extends Controller
     public function actionHello($param)
     {
         echo 'Акшен hello отработал <br>';
-        echo 'Параметр:' . $param;
+        echo 'Параметр:' . $param . '<br>';
         $modelSite = $this->loadModel('site');
         $hello = $modelSite->hello($param);
-        echo $hello;
+        var_dump($hello);
     }
 
 }

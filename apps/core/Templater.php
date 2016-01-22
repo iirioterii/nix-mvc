@@ -6,7 +6,7 @@ class Templater
 {
     public $cont = '';
 
-    public function load($page, $data=null) {
+    public function render($page, $data=null) {
 
         // Если есть файл с таким именем то подключаем и кидаем в шаблон
         if (file_exists(PAGES_PATH . $page . '.phtml')) {
