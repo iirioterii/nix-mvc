@@ -15,13 +15,11 @@ class Controller
         $file  = ROOT . 'apps/models/' . $model . '.php';
         $class = preg_replace('/[^a-zA-Z0-9]/', '', $model);
         if (file_exists($file)) {
-            include_once($file);
+            require_once($file);
         }
         else{
-            var_dump($file);
             echo '<br>';
-            var_dump($class);
-            die('Не удалось подключить модель');
+            die('Не удалось подключить модель - все плохо');
         }
         return new $class;
     }

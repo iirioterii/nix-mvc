@@ -10,6 +10,11 @@ class SiteController extends Controller
         echo 'это акшн index';
     }
 
+    public function actionTest()
+    {
+        echo 'test';
+    }
+
     public function actionHello($param)
     {
         echo 'Акшен hello отработал <br>';
